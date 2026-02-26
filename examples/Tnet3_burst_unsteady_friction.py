@@ -1,6 +1,9 @@
+import os
 import tsnet
+
 # open an example network and create a transient model
-inp_file = '/Users/luxing/Code/TSNet/examples/networks/Tnet3.inp'
+_HERE = os.path.dirname(os.path.abspath(__file__))
+inp_file = os.path.join(_HERE, 'networks', 'Tnet3.inp')
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
@@ -51,9 +54,9 @@ result_obj = 'Tnet3' # name of the object for saving simulation results
 friction ='quasi-steady'
 tm2 = tsnet.simulation.MOCSimulator(tm,result_obj,friction)
 
-#%% tm = tsnet.network.TransientModel(inp_file)
-# Set wavespeed
+#%%
 tm = tsnet.network.TransientModel(inp_file)
+# Set wavespeed
 tm.set_wavespeed(wavespeed)
 # Set time step
 tf = 20 # simulation period [s]
@@ -89,12 +92,6 @@ plt.plot(tm1.simulation_timestamps,tm1.get_node(node3).head-tm1.get_node(node3).
 plt.plot(tm1.simulation_timestamps,tm1.get_node(node4).head-tm1.get_node(node4).head[0],'C3--', linewidth=2.5)
 plt.plot(tm1.simulation_timestamps,tm1.get_node(node5).head-tm1.get_node(node5).head[0],'C4--', linewidth=2.5)
 
-#plt.plot(tm2.simulation_timestamps,tm2.get_node(node1).head-tm2.get_node(node1).head[0],'C0', ls='dotted', linewidth=2.5)
-#plt.plot(tm2.simulation_timestamps,tm2.get_node(node2).head-tm2.get_node(node2).head[0],'C1', ls='dotted', linewidth=2.5)
-#plt.plot(tm2.simulation_timestamps,tm2.get_node(node3).head-tm2.get_node(node3).head[0],'C2', ls='dotted', linewidth=2.5)
-#plt.plot(tm2.simulation_timestamps,tm2.get_node(node4).head-tm2.get_node(node4).head[0],'C3', ls='dotted', linewidth=2.5)
-#plt.plot(tm2.simulation_timestamps,tm2.get_node(node5).head-tm2.get_node(node5).head[0],'C4', ls='dotted', linewidth=2.5)
-
 plt.plot(tm3.simulation_timestamps,tm3.get_node(node1).head-tm3.get_node(node1).head[0],'C0', label='JUNCTION-16', linewidth=2.5)
 plt.plot(tm3.simulation_timestamps,tm3.get_node(node2).head-tm3.get_node(node2).head[0],'C1', label='JUNCTION-20', linewidth=2.5)
 plt.plot(tm3.simulation_timestamps,tm3.get_node(node3).head-tm3.get_node(node3).head[0],'C2', label='JUNCTION-30', linewidth=2.5)
@@ -129,8 +126,6 @@ axs[0].set_xlabel("Time [s]")
 axs[0].set_ylabel("Head change [m]")
 axs[0].legend(loc='lower right')
 axs[0].set_title('(a)')
-#axs[0].show()
-#fig.savefig('tnet3_wo_surge_tank.pdf', format='pdf',dpi=100)
 
 axs[1].plot(tm2.simulation_timestamps,tm2.get_node(node1).head-tm2.get_node(node1).head[0],'C0-',label='JUNCTION-16', linewidth=2.5)
 axs[1].plot(tm2.simulation_timestamps,tm2.get_node(node2).head-tm2.get_node(node2).head[0],'C1-',label='JUNCTION-20', linewidth=2.5)

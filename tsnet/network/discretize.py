@@ -146,19 +146,19 @@ def adjust_wavev(tm):
     """
 
     from numpy import transpose as trans
-    phi = [np.longdouble(pipe.length / pipe.wavev / pipe.number_of_segments)
+    phi = [np.float64(pipe.length / pipe.wavev / pipe.number_of_segments)
                             for _, pipe in tm.pipes()]
-    phi = np.array(phi).reshape((len(phi), 1))
+    phi = np.array(phi, dtype=np.float64).reshape((len(phi), 1))
     tm.wavespeed_adj = np.sum(phi**2)
-    theta = np.longdouble(1/ np.matmul(trans(phi), phi) * \
+    theta = np.float64(1/ np.matmul(trans(phi), phi) * \
         np.matmul(trans(phi), np.ones((len(phi), 1))))
 
     # adjust time step
-    dt = np.float64(1/theta)
+    dt = float(np.float64(1/theta).flat[0])
 
     # adjust the wave speed of each links
     for _, pipe in tm.pipes():
-        pipe.wavev = np.float64(pipe.wavev * phi[int(pipe.id)-1] * theta)
+        pipe.wavev = float(np.float64(pipe.wavev * phi[int(pipe.id)-1] * theta).flat[0])
 
     # set time step as a new attribute to TransientModel
     tm.time_step =dt

@@ -116,18 +116,15 @@ def pumpclosing(dt, tf, pump_op):
         se = 0.0001
 
     tn = int(tf/dt)
-    # gradual closure
-    if tc != 0:
-        s =  np.array([(1- (i*dt- ts)/tc)**m    for i in range(tn)])
-        s[s>1] = 1
-        s[s<se] = se
-
     # abrupt closure
-    if tc ==0:
-        t = np.array([(i*dt- ts)/tc for i in range(tn)])
-        t[t>1] = 1
-        t[t<0] = 0
-        s =  np.array([1 - (1-se)*t[i]**m for i in range(tn)])
+    if tc == 0:
+        s = np.ones(tn)
+        for i in range(tn):
+            if i * dt >= ts:
+                s[i] = se
+    # gradual closure
+    else:
+        s =  np.array([(1- (i*dt- ts)/tc)**m    for i in range(tn)])
         s[s>1] = 1
         s[s<se] = se
     return s

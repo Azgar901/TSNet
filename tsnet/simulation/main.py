@@ -447,6 +447,9 @@ def MOCSimulator(tm, results_obj='results', friction='steady'):
             pipe.start_node._head = np.copy(pipe.start_node_head)
         if not isinstance(pipe.end_node._head, np.ndarray):
             pipe.end_node._head = np.copy(pipe.end_node_head)
+        # provide public alias so examples can use node.head
+        pipe.start_node.head = pipe.start_node._head
+        pipe.end_node.head = pipe.end_node._head
 
     tm.simulation_timestamps = tt[1:]
 

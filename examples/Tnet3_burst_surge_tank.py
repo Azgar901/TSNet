@@ -1,10 +1,13 @@
+import os
 import tsnet
+import numpy as np
+
 # open an example network and create a transient model
-inp_file = 'networks/Tnet3.inp'
+_HERE = os.path.dirname(os.path.abspath(__file__))
+inp_file = os.path.join(_HERE, 'networks', 'Tnet3.inp')
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
-import numpy as np
 wavespeed = 1200
 tm.set_wavespeed(wavespeed)
 # Set time step
@@ -29,7 +32,6 @@ tm1 = tsnet.simulation.MOCSimulator(tm,result_obj)
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
-import numpy as np
 tm.set_wavespeed(wavespeed)
 # Set time step
 tf = 20 # simulation period [s]
@@ -61,7 +63,6 @@ tm2 = tsnet.simulation.MOCSimulator(tm,result_obj)
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
-import numpy as np
 tm.set_wavespeed(wavespeed)
 # Set time step
 tf = 20 # simulation period [s]
@@ -108,8 +109,6 @@ axs[0].set_xlabel("Time [s]")
 axs[0].set_ylabel("Head change [m]")
 axs[0].legend(loc='best')
 axs[0].set_title('(a)')
-#axs[0].show()
-#fig.savefig('tnet3_wo_surge_tank.pdf', format='pdf',dpi=100)
 
 axs[1].plot(tm2.simulation_timestamps,tm2.get_node(node1).head-tm2.get_node(node1).head[0],'C0',label='JUNCTION-16', linewidth=2.5)
 axs[1].plot(tm2.simulation_timestamps,tm2.get_node(node2).head-tm2.get_node(node2).head[0],'C1',label='JUNCTION-20', linewidth=2.5)
