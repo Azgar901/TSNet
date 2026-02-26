@@ -1,6 +1,9 @@
+import os
 import tsnet
+
 # open an example network and create a transient model
-inp_file = '/Users/luxing/Code/TSNet/examples/networks/Tnet2.inp'
+_HERE = os.path.dirname(os.path.abspath(__file__))
+inp_file = os.path.join(_HERE, 'networks', 'Tnet2.inp')
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
@@ -56,4 +59,3 @@ plt.legend(loc='best')
 plt.grid(True)
 plt.show()
 # fig.savefig('./docs/figures/tnet2_pipe.png', format='png',dpi=100)
-
