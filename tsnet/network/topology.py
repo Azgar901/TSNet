@@ -96,9 +96,9 @@ def topology(wn):
                          if l.id == abs(links1[pn][0])][0]
 
                 if links1[abs(links1[pn][0])-1] and links2[abs(links1[pn][0])-1]:
-                    links1[pn] = [i
-                    for i in [links1[abs(links1[pn][0])-1], links2[abs(links1[pn][0])-1]]
-                    if abs(i[0]) -1 != pn][0]
+                    valid_i = [i for i in [links1[abs(links1[pn][0])-1], links2[abs(links1[pn][0])-1]] 
+                               if not isinstance(i[0], str) and abs(i[0]) - 1 != pn]
+                    links1[pn] = valid_i[0] if valid_i else ['End']
                 else:
                     links1[pn] = ['End']
 
@@ -113,9 +113,9 @@ def topology(wn):
                          if l.id == abs(links2[pn][0])][0]
 
                 if links1[abs(links2[pn][0])-1] and links2[abs(links2[pn][0])-1]:
-                    links2[pn] = [i
-                    for i in [links1[abs(links2[pn][0])-1], links2[abs(links2[pn][0])-1]]
-                    if abs(i[0]) -1 != pn][0]
+                    valid_i = [i for i in [links1[abs(links2[pn][0])-1], links2[abs(links2[pn][0])-1]] 
+                               if not isinstance(i[0], str) and abs(i[0]) - 1 != pn]
+                    links2[pn] = valid_i[0] if valid_i else ['End']
                 else:
                     links2[pn] = ['End']
 

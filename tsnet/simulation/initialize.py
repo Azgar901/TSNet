@@ -214,14 +214,14 @@ def cal_roughness_coef(pipe, V, hl):
     if abs(V) >= V_tol and hl >= H_tol:
         pipe.roughness = hl / (pipe.length/pipe.diameter) / (V**2/2/g)
     else:
-        pipe.roughness = 0
+        pipe.roughness = 1e-8
 
     if pipe.roughness >0.08:
         warnings.warn("%s :the friction coefficient %.4f is too large. \
                         The D-W coeff has been set to 0.03 "
                         %(pipe.name, pipe.roughness))
         pipe.roughness = 0.03
-    if pipe.roughness!= 0:
+    if pipe.roughness > 1e-7:
         pipe.roughness_height = max(10**(-1/1.8/np.sqrt(pipe.roughness)) - 6.9/pipe.initial_Re, 0)
     else:
         pipe.roughness_height = 0
@@ -231,6 +231,8 @@ def pump_operation_points(tm):
     #add operation points to the pump
     for _, pump in tm.pumps():
         opt_point = (pump.initial_flow, abs(pump.end_node.initial_head-pump.start_node.initial_head))
+        if not hasattr(pump, 'get_pump_curve'):
+            raise Exception("TSNet only supports HeadPump (pump with a curve). PowerPump is not supported.")
         def_points = pump.get_pump_curve().points
         # single-point pump curve
         if len(def_points) == 1:

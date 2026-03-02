@@ -1,16 +1,41 @@
 import os
 import tsnet
+import wntr
+import matplotlib.pyplot as plt
 
-# Open an example network and create a transient model
+
+# Création d'un réseau vide
+wn = wntr.network.WaterNetworkModel()
+wn.options.hydraulic.inpfile_units = 'LPS'
+wn.options.hydraulic.headloss = 'D-W'
+
+# Ajout des composants
+wn.add_reservoir('T', base_head=100 )
+wn.add_junction('1', elevation=0)
+wn.add_junction('2', elevation=0)
+wn.add_junction('END', elevation=0, base_demand=0.001)
+
+#On ajoute une pompe
+debit_voulu = 0.2 # m3/s (200 LPS)
+charge_voulue = 100 # m (Mètres de colonne d'eau)
+wn.add_curve('courbe_pompe', 'HEAD', [(debit_voulu, charge_voulue)])
+wn.add_pump('pump', '1', '2', pump_type='HEAD', pump_parameter='courbe_pompe')
+
+wn.add_pipe('p1','T','1', length=1000, diameter=0.6, roughness=0.01, minor_loss=0, initial_status='OPEN')
+wn.add_pipe('p2','2','END', length=1000, diameter=0.6, roughness=0.01, minor_loss=0, initial_status='OPEN')
+
+wntr.network.write_inpfile(wn, 'examples/test.inp') # Enregistre en fichier INP
+
+
 _HERE = os.path.dirname(os.path.abspath(__file__))
-inp_file = os.path.join(_HERE, 'networks', 'simple_pump.inp')
+inp_file = os.path.join(_HERE, 'test.inp')
 tm = tsnet.network.TransientModel(inp_file)
 
 # Set wavespeed
 tm.set_wavespeed(1200.) # m/s
 # Set time options
 dt = 0.1  # time step [s], if not given, use the maximum allowed dt
-tf = 60   # simulation period [s]
+tf = 300   # simulation period [s]
 tm.set_time(tf)
 
 # Set pump shut off
