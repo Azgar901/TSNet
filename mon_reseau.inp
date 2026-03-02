@@ -1,0 +1,159 @@
+[TITLE]
+
+[JUNCTIONS]
+;ID                      Elevation       Demand Pattern                 
+ j1                                20               0                            ;
+ END1                              20             0.1                            ;
+ j2                                20               0                            ;
+ END2                              20             0.1                            ;
+ j3                                20               0                            ;
+ END3                              20             0.1                            ;
+ j4                                20               0                            ;
+ j5                                20               0                            ;
+ j6                                20               0                            ;
+ END_URGENCE                       20              10                            ;
+ END_Immeuble                      70               1                            ;
+ jv1                               20               0                            ;
+ jv2                               20               0                            ;
+ jv3                               20               0                            ;
+ jv4                               20               0                            ;
+ jv5                               70               0                            ;
+
+[RESERVOIRS]
+;ID                                   Head                  Pattern
+ Water_Castle                     100                            ;
+
+[TANKS]
+;ID                              Elevation           Init Level            Min Level            Max Level             Diameter           Min Volume Volume Curve         Overflow            
+
+[PIPES]
+;ID                   Node1                Node2                              Length             Diameter            Roughness           Minor Loss               Status
+ p1                   Water_Castle         j1                               130            1200              10               0                 Open   ;
+ p2                   j1                   j2                                10             600              10               0                 Open   ;
+ p3                   j2                   j3                                20             600              10               0                 Open   ;
+ p4                   j3                   j4                                40             600              10               0                 Open   ;
+ p5                   j5                   j6                                 5             600              10               0                 Open   ;
+ stub1                j1                   jv1                                1             158              10               0                 Open   ;
+ stub2                j2                   jv2                                1             158              10               0                 Open   ;
+ stub3                j3                   jv3                                1             158              10               0                 Open   ;
+ stub4                j6                   jv4                                1             158              10               0                 Open   ;
+ stub5                j6                   jv5                                1             158              10               0                 Open   ;
+
+[PUMPS]
+;ID                   Node1                Node2                Properties          
+ pump                 j4                   j5                   HEAD     courbe_pompe           ;
+
+[VALVES]
+;ID                   Node1                Node2                            Diameter Type              Setting           Minor Loss
+ v1                   jv1                  END1                             158 PRV           100000               0   ;
+ v2                   jv2                  END2                             158 PRV           100000               0   ;
+ v3                   jv3                  END3                             158 PRV           100000               0   ;
+ v4                   jv4                  END_URGENCE                      158 PRV           100000               0   ;
+ v5                   jv5                  END_Immeuble                     158 PRV           100000               0   ;
+
+[TAGS]
+;type      name       tag       
+
+[DEMANDS]
+;ID        Demand     Pattern   
+
+[STATUS]
+;ID        Setting   
+v4         Closed    
+
+[PATTERNS]
+;ID        Multipliers
+
+[CURVES]
+;ID         X-Value      Y-Value     
+;PUMP: courbe_pompe
+ courbe_pompe   200.000000   100.000000   ;
+
+
+[CONTROLS]
+
+[RULES]
+
+[ENERGY]
+GLOBAL PRICE           0.0000
+
+[EMITTERS]
+;ID        Flow coefficient
+
+[QUALITY]
+
+[SOURCES]
+;Node      Type       Quality    Pattern   
+
+[REACTIONS]
+;Type           Pipe/Tank               Coefficient
+
+ ORDER BULK 1
+ ORDER TANK 1
+ ORDER WALL 1
+ GLOBAL BULK 0.0000    
+ GLOBAL WALL 0.0000    
+
+[MIXING]
+;Tank ID             Model Fraction
+
+[TIMES]
+DURATION             00:00:00
+HYDRAULIC TIMESTEP   01:00:00
+QUALITY TIMESTEP     00:06:00
+PATTERN TIMESTEP     01:00:00
+PATTERN START        00:00:00
+REPORT TIMESTEP      01:00:00
+REPORT START         00:00:00
+START CLOCKTIME      00:00:00 AM
+RULE TIMESTEP        00:06:00
+STATISTIC            NONE      
+
+[REPORT]
+
+[OPTIONS]
+UNITS                LPS                 
+HEADLOSS             D-W                 
+SPECIFIC GRAVITY     1
+VISCOSITY            1
+TRIALS               200
+ACCURACY             0.001
+CHECKFREQ            2
+MAXCHECK             10
+UNBALANCED           STOP                
+PATTERN              1                   
+DEMAND MULTIPLIER    1
+EMITTER EXPONENT     0.5
+QUALITY              NONE                
+DIFFUSIVITY          1
+TOLERANCE            0.01
+
+[COORDINATES]
+;Node      X-Coord    Y-Coord   
+Water_Castle          0.000000000          0.000000000
+j1                  0.000000000          0.000000000
+END1                0.000000000          0.000000000
+j2                  0.000000000          0.000000000
+END2                0.000000000          0.000000000
+j3                  0.000000000          0.000000000
+END3                0.000000000          0.000000000
+j4                  0.000000000          0.000000000
+j5                  0.000000000          0.000000000
+j6                  0.000000000          0.000000000
+END_URGENCE          0.000000000          0.000000000
+END_Immeuble          0.000000000          0.000000000
+jv1                 0.000000000          0.000000000
+jv2                 0.000000000          0.000000000
+jv3                 0.000000000          0.000000000
+jv4                 0.000000000          0.000000000
+jv5                 0.000000000          0.000000000
+
+[VERTICES]
+;Link      X-Coord    Y-Coord   
+
+[LABELS]
+
+[BACKDROP]
+UNITS    NONE
+
+[END]
